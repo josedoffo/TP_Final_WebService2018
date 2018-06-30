@@ -1,50 +1,52 @@
 <div id="z">
   <h4 class="card-header">Gestion de usuarios</h4>
-  <form id="f">
+  <form id="f" #f="ngForm">
+    
     <div class="form-group row">
       <div class="col-md">
-        <input class="form-control" type="text" placeholder="Ingrese su apellido">
+        <input class="form-control" type="text" class="form-control" id="nA" required [(ngModel)]="nuevo.apellido" name="nA" #nA="ngModel"  placeholder="Ingrese su apellido">
       </div>
+      
       <div class="col-md">
-        <input class="form-control" type="text" required placeholder="Ingrese su nombre">
+        <input class="form-control" type="text"  id="nombre" name="nombre" #nombre="ngModel" [(ngModel)]="nuevo.nombres"  required placeholder="Ingrese su nombre">
       </div>
     </div>
     <div class="form-group row">
       <div class="col-md">
-        <input class="form-control" type="number" required placeholder="Ingrese su dni">
+        <input class="form-control" type="number" required placeholder="Ingrese su dni"  name="dni" id="dni" #dni="ngModel" [(ngModel)]="nuevo.dni">
         <small class="text-muted">Ingrese su dni sin puntos ni comas</small>
       </div>
       <div class="col-md">
-        <input class="form-control" required type="email" placeholder="Ingrese su email">
+        <input class="form-control" required type="email" placeholder="Ingrese su email" name="email"  id="email" #email="ngModel" [(ngModel)]="nuevo.email">
       </div>
     </div>
     <div class="form-group row">
       <div class="col-md">
-        <input class="form-control" type="number" required placeholder="Ingrese su numero de telefono">
+        <input class="form-control" type="number" required placeholder="Ingrese su numero de telefono" name="tel" id="tel" #tel="ngModel" [(ngModel)]="nuevo.telefono">
       </div>
     </div>
     <div class="form-group row">
       <div class="col-md">
-        <input class="form-control" type="text" required placeholder="Ingrese su nombre de usuario">
+        <input class="form-control" type="text" required placeholder="Ingrese su nombre de usuario" name="user" id="user" #user="ngModel" [(ngModel)]="nuevo.usuario">
         <small class="text-muted">Caracteres especiales no son permitidos</small>
       </div>
       <div class="col-md">
-        <input class="form-control" required type="password" placeholder="Ingrese su contraseña">
+        <input class="form-control" required type="password" placeholder="Ingrese su contraseña" name="pass" id="pass" #pass="ngModel" [(ngModel)]="nuevo.password">
       </div>
     </div>
     <div class="form-group">
       <small class="text-muted">Seleccione el perfil del usuario</small>
-      <select class="form-control" required>
-        <option value="cliente" selected>Cliente</option>
-        <option value="admin">Administrador</option>
+      <select class="form-control" required  id="perfil" #perfil="ngModel" [(ngModel)]="nuevo.perfil" name="perfil">
+        <option value="Cliente" selected >Cliente</option>
+        <option value="Administrador">Administrador</option>
       </select>
     </div>
 
-  </form>
+</form>
   <div class="card-footer">
     <div class="row justify-content-end">
-      <button class="btn btn-success" id="b">
-        <i fa class="fa fa-check"></i> Registrar</button>
+      <button class="btn btn-success" id="b" (click)="registrar()" [disabled]="!f.form.valid">
+        <i fa class="fa fa-check" ></i> Registrar</button>
     </div>
   </div>
 
@@ -52,19 +54,19 @@
     <thead>
       <tr>
         <th>
-          <mfDefaultSorter by="lu">Libreta Universitaria</mfDefaultSorter>
+          <mfDefaultSorter by="usuario">Nombre de usuario</mfDefaultSorter>
         </th>
         <th>
-          <mfDefaultSorter by="notaOral">Nota Oral</mfDefaultSorter>
+          <mfDefaultSorter by="apellido">Apellido</mfDefaultSorter>
         </th>
         <th>
-          <mfDefaultSorter by="notaConcepto">Nota de Concepto</mfDefaultSorter>
+          <mfDefaultSorter by="nombres">Nombre</mfDefaultSorter>
         </th>
         <th>
-          <mfDefaultSorter by="notaEvaluacion">Nota de Evaluacion</mfDefaultSorter>
+          <mfDefaultSorter by="email">Email</mfDefaultSorter>
         </th>
         <th>
-          <mfDefaultSorter by="estado">Condicion</mfDefaultSorter>
+          <mfDefaultSorter by="perfil">Tipo de Usuario</mfDefaultSorter>
         </th>
         <th>Modificar</th>
         <th>Eliminar</th>
@@ -72,17 +74,17 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of mf.data">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{{item.usuario}}</td>
+        <td>{{item.apellido}}</td>
+        <td>{{item.nombres}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.perfil}}</td>
         <td>
-          <button class="btn btn-info" data-toggle="modal" data-target="#modificar">
+          <button class="btn btn-info" data-toggle="modal" data-target="#modificar" (click)="ind(item)">
             <i fa class="fa fa-cog"></i> Modificar</button>
         </td>
         <td>
-          <button class="btn btn-danger">
+          <button class="btn btn-danger" (click)="borrarUsuario(item)">
             <i fa class="fa fa-trash"></i> Borrar</button>
         </td>
 
@@ -115,51 +117,51 @@
         <div class="form-group row">
           <div class="col">
           <small class="text-muted">Nombre:</small>
-          <input class="form-control">
+          <input class="form-control" name="iname" id="iname" #iname="ngModel" [(ngModel)]="index.nombres" required>
         </div>
         <div class="col">
             <small class="text-muted">Apellido:</small>
-            <input class="form-control">
+            <input class="form-control" name="iap" id="iap" #iap="ngModel" [(ngModel)]="index.apellido" required>
         </div>
         </div>
 
         <div class="form-group row">
             <div class="col">
             <small class="text-muted">Dni:</small>
-            <input class="form-control">
+            <input class="form-control" name="idni" id="idni" #idni="ngModel" [(ngModel)]="index.dni" required>
           </div>
           <div class="col">
               <small class="text-muted">Email:</small>
-              <input class="form-control">
+              <input class="form-control" name="iemail" id="iemail" #iemail="ngModel" [(ngModel)]="index.email" required>
           </div>
           </div>
 
           
         <div class="form-group">
           <small class="text-muted">Telefono:</small>
-          <input class="form-control">
+          <input class="form-control" name="itel" id="itel" #itel="ngModel" [(ngModel)]="index.telefono" required>
         </div>
 
         <div class="form-group row">
             <div class="col">
             <small class="text-muted">Usuario:</small>
-            <input class="form-control">
+            <input class="form-control" name="iusu" id="iusu" #iusu="ngModel" [(ngModel)]="index.usuario" required>
           </div>
           <div class="col">
               <small class="text-muted">Contraseña:</small>
-              <input class="form-control">
+              <input class="form-control" name="ipass" id="ipass" #ipass="ngModel" [(ngModel)]="index.password" required>
           </div>
           </div>
         <div class="form-group">
           <small class="text-muted">Tipo de Usuario:</small>
-          <select class="form-control">
-            <option>Cliente</option>
-            <option>Administrador</option>
+          <select class="form-control" name="iper" id="iper" #iper="ngModel" [(ngModel)]="index.perfil" required>
+            <option value="Cliente">Cliente</option>
+            <option value="Administrador">Administrador</option>
           </select>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-success">
+          <button type="button" class="btn btn-success" (click)="update()">
             <i fa class="fa-save"></i> Guardar Cambios</button>
         </div>
       </div>

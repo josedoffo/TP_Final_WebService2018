@@ -1,21 +1,19 @@
 export class Usuario {
-    id: number
     apellido: String
     nombres: String
     dni: number
     email: String
-    teléfono: number
+    telefono: number
     usuario: string
     password: string
     perfil: string
 
-    constructor (id?:number,apellido?:string,nombres?:string,dni?:number,email?:string,telefono?:number,usuario?:string,password?:string,perfil?:string){
-    this.id=id;
+    constructor (apellido?:string,nombres?:string,dni?:number,email?:string,telefono?:number,usuario?:string,password?:string,perfil?:string){
     this.apellido=apellido;
     this.nombres=nombres;
     this.dni=dni;
     this.email=email;
-    this.teléfono=telefono;
+    this.telefono=telefono;
     this.usuario=usuario;
     this.password=password;
     this.perfil=perfil;

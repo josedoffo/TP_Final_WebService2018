@@ -45,22 +45,24 @@ class UsuarioController extends Controller
      */
     public function newAction(Request $request)
     {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace($data);
         $usuario = new Usuario();
-        $form = $this->createForm('UserBundle\Form\UsuarioType', $usuario);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($usuario);
-            $em->flush();
-
-            return $this->redirectToRoute('usuario_show', array('id' => $usuario->getId()));
-        }
-
-        return $this->render('usuario/new.html.twig', array(
-            'usuario' => $usuario,
-            'form' => $form->createView(),
-        ));
+        $usuario->setApellido($request->request->get('apellido'));
+        $usuario->setNombres($request->request->get('nombres'));
+        $usuario->setDni($request->request->get('dni'));
+        $usuario->setEmail($request->request->get('email'));
+        $usuario->setTelefono($request->request->get('telefono'));
+        $usuario->setUsuario($request->request->get('usuario'));
+        $usuario->setPassword($request->request->get('password'));
+        $usuario->setPerfil($request->request->get('perfil'));
+    
+        //confecciono una entidad empresa para asignar a mensaje
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($usuario);
+        $em->flush();
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
     }
 
     /**
@@ -87,21 +89,22 @@ class UsuarioController extends Controller
      */
     public function editAction(Request $request, Usuario $usuario)
     {
-        $deleteForm = $this->createDeleteForm($usuario);
-        $editForm = $this->createForm('UserBundle\Form\UsuarioType', $usuario);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('usuario_edit', array('id' => $usuario->getId()));
-        }
-
-        return $this->render('usuario/edit.html.twig', array(
-            'usuario' => $usuario,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace($data);
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository('UserBundle:Usuario')->find($usuario);
+        $usuario->setApellido($request->request->get('apellido'));
+        $usuario->setNombres($request->request->get('nombres'));
+        $usuario->setDni($request->request->get('dni'));
+        $usuario->setEmail($request->request->get('email'));
+        $usuario->setTelefono($request->request->get('telefono'));
+        $usuario->setUsuario($request->request->get('usuario'));
+        $usuario->setPassword($request->request->get('password'));
+        $usuario->setPerfil($request->request->get('perfil'));
+        $em->persist($usuario);
+        $em->flush();
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
     }
 
     /**
@@ -110,19 +113,19 @@ class UsuarioController extends Controller
      * @Route("/{id}", name="usuario_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Usuario $usuario)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($usuario);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($usuario);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository('UserBundle:Usuario')->find($id);
+        if (!$usuario){
+            throw $this->createNotFoundException('id incorrecta');
         }
-
-        return $this->redirectToRoute('usuario_index');
+        $em->remove($usuario);
+        $em->flush();
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
     }
+
 
     /**
      * Creates a form to delete a usuario entity.
