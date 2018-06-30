@@ -6,8 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./punto1.component.css']
 })
 export class Punto1Component implements OnInit {
-
-  constructor() { }
+  usuarios=new Array;
+  constructor() { 
+    this.usuarios.push(2);
+    
+  }
 
   ngOnInit() {
   }

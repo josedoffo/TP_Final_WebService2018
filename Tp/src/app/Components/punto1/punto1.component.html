@@ -1,3 +1,167 @@
-<p>
-  punto1 works!
-</p>
+<div id="z">
+  <h4 class="card-header">Gestion de usuarios</h4>
+  <form id="f">
+    <div class="form-group row">
+      <div class="col-md">
+        <input class="form-control" type="text" placeholder="Ingrese su apellido">
+      </div>
+      <div class="col-md">
+        <input class="form-control" type="text" required placeholder="Ingrese su nombre">
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md">
+        <input class="form-control" type="number" required placeholder="Ingrese su dni">
+        <small class="text-muted">Ingrese su dni sin puntos ni comas</small>
+      </div>
+      <div class="col-md">
+        <input class="form-control" required type="email" placeholder="Ingrese su email">
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md">
+        <input class="form-control" type="number" required placeholder="Ingrese su numero de telefono">
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md">
+        <input class="form-control" type="text" required placeholder="Ingrese su nombre de usuario">
+        <small class="text-muted">Caracteres especiales no son permitidos</small>
+      </div>
+      <div class="col-md">
+        <input class="form-control" required type="password" placeholder="Ingrese su contraseña">
+      </div>
+    </div>
+    <div class="form-group">
+      <small class="text-muted">Seleccione el perfil del usuario</small>
+      <select class="form-control" required>
+        <option value="cliente" selected>Cliente</option>
+        <option value="admin">Administrador</option>
+      </select>
+    </div>
+
+  </form>
+  <div class="card-footer">
+    <div class="row justify-content-end">
+      <button class="btn btn-success" id="b">
+        <i fa class="fa fa-check"></i> Registrar</button>
+    </div>
+  </div>
+
+  <table class="table table-striped" [mfData]="usuarios" #mf="mfDataTable" [mfRowsOnPage]="5">
+    <thead>
+      <tr>
+        <th>
+          <mfDefaultSorter by="lu">Libreta Universitaria</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="notaOral">Nota Oral</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="notaConcepto">Nota de Concepto</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="notaEvaluacion">Nota de Evaluacion</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="estado">Condicion</mfDefaultSorter>
+        </th>
+        <th>Modificar</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of mf.data">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <button class="btn btn-info" data-toggle="modal" data-target="#modificar">
+            <i fa class="fa fa-cog"></i> Modificar</button>
+        </td>
+        <td>
+          <button class="btn btn-danger">
+            <i fa class="fa fa-trash"></i> Borrar</button>
+        </td>
+
+
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">
+          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+
+
+
+<div class="modal fade" id="modificar" tabindex="-1" role="dialog" aria-labelledby="modificarlabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar Usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <div class="col">
+          <small class="text-muted">Nombre:</small>
+          <input class="form-control">
+        </div>
+        <div class="col">
+            <small class="text-muted">Apellido:</small>
+            <input class="form-control">
+        </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
+            <small class="text-muted">Dni:</small>
+            <input class="form-control">
+          </div>
+          <div class="col">
+              <small class="text-muted">Email:</small>
+              <input class="form-control">
+          </div>
+          </div>
+
+          
+        <div class="form-group">
+          <small class="text-muted">Telefono:</small>
+          <input class="form-control">
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
+            <small class="text-muted">Usuario:</small>
+            <input class="form-control">
+          </div>
+          <div class="col">
+              <small class="text-muted">Contraseña:</small>
+              <input class="form-control">
+          </div>
+          </div>
+        <div class="form-group">
+          <small class="text-muted">Tipo de Usuario:</small>
+          <select class="form-control">
+            <option>Cliente</option>
+            <option>Administrador</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success">
+            <i fa class="fa-save"></i> Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
