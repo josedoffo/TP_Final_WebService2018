@@ -1,20 +1,17 @@
-
-
-
 <div id="z">
   <h4 class="card-header">Login</h4>
   <form name="form-group" id="f">
       <div class="form-group">
-          <input type="text" class="form-control" required placeholder="Nombre de usuario" name="username"/>
+          <input type="text" class="form-control" required placeholder="Nombre de usuario" name="username" [(ngModel)]="userform.usuario" />
       </div>
       <div class="form-group">
-          <input type="password" class="form-control" placeholder="Contraseña" name="password"/>
+          <input type="password" class="form-control" placeholder="Contraseña" name="password" [(ngModel)]="userform.password"  />
       </div>
      
   </form>
   <div class="card-footer">
     <div class=" row justify-content-end">
-        <button class="btn btn-success" id="b"><i fa class="fa fa-check"></i> Ingresar</button>
+        <button class="btn btn-success" id="b" (click)="login()"><i fa class="fa fa-check"></i> Ingresar</button>
     </div>
   </div>
 </div>

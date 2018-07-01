@@ -10,7 +10,10 @@ import {HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import{Angular2FontawesomeModule} from "angular2-fontawesome/angular2-fontawesome";
 import { FormsModule }   from '@angular/forms';
-import { LoginComponent } from './Components/login/login.component'
+import { LoginComponent } from './Components/login/login.component';
+import { AuthenticationService } from './services/authentication.service';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +31,7 @@ import { LoginComponent } from './Components/login/login.component'
     HttpClientModule,
     HttpModule
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
