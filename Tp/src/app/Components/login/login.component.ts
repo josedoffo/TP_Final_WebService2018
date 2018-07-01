@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
             this.authenticationService.userLogged = user;
             //localstorage usado para mostrar o no un componente
             localStorage.setItem('currentUser', JSON.stringify(user));
-            this.router.navigateByUrl('/punto2');
+            this.router.navigateByUrl('/home');
           }
         },
         error => {
