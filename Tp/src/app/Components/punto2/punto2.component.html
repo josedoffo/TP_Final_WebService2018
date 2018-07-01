@@ -25,13 +25,17 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-sm-12">
         <div class="card">
           <div class="card-header">Upload an Image</div>
-          <div class="card-body">
+          <div class="card-body content-center">
             <img [src]="imgUrl" style="width: 250px;height: 200px;" >
-            <input type="file" (change)="handleFileInput($event.target.files)" #image accept="image/*">
-            <button type="button" class="btn btn-success">Updload</button>
+            <input type="file" style="display: none" (change)="handleFileInput($event.target.files)" #image accept="image/*">
+            
+            <button type="button" class="btn btn-primary" (click)="image.click()">Choose file</button>
+          
+            <div class="row justify-content-end">            <button type="button" class="btn btn-success ">Upload</button>
+            </div>
           </div>
         </div>
       </div>
