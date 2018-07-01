@@ -10,11 +10,18 @@ import {HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import{Angular2FontawesomeModule} from "angular2-fontawesome/angular2-fontawesome";
 import { FormsModule }   from '@angular/forms';
+
+import { LoginComponent } from './Components/login/login.component';
+import { AuthenticationService } from './services/authentication.service';
+
+
+
 import {SlideshowModule} from 'ng-simple-slideshow';
 import { HomeComponent } from './Components/home/home.component';
 
 
-import { LoginComponent } from './Components/login/login.component'
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +41,7 @@ import { LoginComponent } from './Components/login/login.component'
     HttpModule,
     SlideshowModule
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
