@@ -13,7 +13,8 @@ export class Punto1Component implements OnInit {
   usuarios:Array<Usuario>
   nuevo:Usuario;
   index:Usuario;
-  constructor( private servicio:UsuarioServiceService) { 
+  constructor( private servicio:UsuarioServiceService, ) { 
+    
   this.nuevo=new Usuario();
   this.index=new Usuario();
   this.usuarios=new Array<Usuario>();
