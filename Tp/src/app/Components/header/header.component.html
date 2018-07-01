@@ -13,9 +13,14 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['punto2']" >Gestion de Vehiculos</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['login']">Login</a>
-        </li>
+        <div>
+            <li class="nav-item">
+                <a class="nav-link" *ngIf="!authenticationService.userLoggedIn" [routerLink]="['login']">Login</a>
+                <a class="nav-link" *ngIf="authenticationService.userLoggedIn" [routerLink]="['login']" (click)="logout()">
+                  {{authenticationService.userLogged.username}} logout
+                </a>
+            </li>
+        </div>      
       </ul>
     </div>
 
