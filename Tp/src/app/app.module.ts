@@ -24,7 +24,7 @@ import { LoginComponent } from './Components/login/login.component'
     Punto1Component,
     Punto2Component,
 <<<<<<< HEAD
-    HomeComponent
+    HomeComponent,
 =======
     LoginComponent
 >>>>>>> afd72dc27e5244b774d698027108603d8078111d
