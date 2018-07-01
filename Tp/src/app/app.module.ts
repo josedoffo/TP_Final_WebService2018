@@ -10,13 +10,16 @@ import {HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import{Angular2FontawesomeModule} from "angular2-fontawesome/angular2-fontawesome";
 import { FormsModule }   from '@angular/forms';
+import {SlideshowModule} from 'ng-simple-slideshow';
+import { HomeComponent } from './Components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     Punto1Component,
-    Punto2Component
+    Punto2Component,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,8 @@ import { FormsModule }   from '@angular/forms';
     DataTableModule,
     Angular2FontawesomeModule,
     HttpClientModule,
-    HttpModule
+    HttpModule,
+    SlideshowModule
   ],
   providers: [],
   bootstrap: [AppComponent]

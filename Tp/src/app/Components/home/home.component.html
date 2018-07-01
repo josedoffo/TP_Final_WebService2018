@@ -1,0 +1,21 @@
+<slideshow [height]="height"
+           [minHeight]="'525px'"
+           [autoPlay]="true"
+           [showArrows]="true"
+           [imageUrls]="imagenes"
+></slideshow>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-header">Upload an Image</div>
+        <div class="card-body">
+          <img [src]="imgUrl" style="width: 250px;height: 200px;" >
+          <input type="file" (change)="handleFileInput($event.target.files)" #image accept="image/*">
+          <button type="button" class="btn btn-success">Updload</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

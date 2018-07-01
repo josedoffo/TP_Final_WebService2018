@@ -28,6 +28,7 @@
     "font-awesome": "^4.7.0",
     "fontawesome": "^4.7.2",
     "jquery": "^3.3.1",
+    "ng-simple-slideshow": "^1.2.2",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },
