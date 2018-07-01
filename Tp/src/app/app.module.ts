@@ -10,16 +10,24 @@ import {HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import{Angular2FontawesomeModule} from "angular2-fontawesome/angular2-fontawesome";
 import { FormsModule }   from '@angular/forms';
+<<<<<<< HEAD
 import {SlideshowModule} from 'ng-simple-slideshow';
 import { HomeComponent } from './Components/home/home.component';
 
+=======
+import { LoginComponent } from './Components/login/login.component'
+>>>>>>> afd72dc27e5244b774d698027108603d8078111d
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     Punto1Component,
     Punto2Component,
+<<<<<<< HEAD
     HomeComponent
+=======
+    LoginComponent
+>>>>>>> afd72dc27e5244b774d698027108603d8078111d
   ],
   imports: [
     BrowserModule,
