@@ -3,10 +3,12 @@
   <form id="f" #f="ngForm">
     <div class="form-group row">
       <div class="col">
-        <input class="form-control" type="text" required placeholder="Ingrese la patente" name="npat" id="npat" #npat="ngModel" [(ngModel)]="nuevo.patente">
+        <input class="form-control" type="number" required placeholder="Ingrese la patente" name="npat" id="npat" #npat="ngModel"
+          [(ngModel)]="nuevo.patente">
       </div>
       <div class="col">
-        <input class="form-control" type="text" required placeholder="Ingrese la marca" name="nmarc" id="nmarc" #nmarc="ngModel" [(ngModel)]="nuevo.marca">
+        <input class="form-control" type="text" required placeholder="Ingrese la marca" name="nmarc" id="nmarc" #nmarc="ngModel"
+          [(ngModel)]="nuevo.marca">
       </div>
 
     </div>
@@ -16,7 +18,7 @@
         <input class="form-control" type="text" required placeholder="Ingrese el modelo" name="nmod" id="nmod" #nmod="ngModel" [(ngModel)]="nuevo.modelo">
       </div>
       <div class="col">
-        
+
         <select class="form-control" required name="nestado" id="nestado" #nestado="ngModel" [(ngModel)]="nuevo.disponible">
           <option value="false">No</option>
           <option value="true">Si</option>
@@ -27,27 +29,110 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="card">
-          <div class="card-header">Upload an Image</div>
+          <div class="card-header">Sube una imagen</div>
           <div class="card-body content-center">
-            <img [src]="imgUrl" style="width: 250px;height: 200px;" >
-            <input type="file" style="display: none" (change)="handleFileInput($event.target.files)" #image accept="image/*">
-            
+            <img [src]="imgUrl" style="width: 250px;height: 200px;">
+            <input type="file" style="display:none" (change)="handleFileInput($event.target.files)" #image accept="image/*">
             <button type="button" class="btn btn-primary" (click)="image.click()">Choose file</button>
-          
-            <div class="row justify-content-end">            <button type="button" class="btn btn-success ">Upload</button>
-            </div>
           </div>
         </div>
       </div>
 
-  </div>
-
-
+    </div>
   </form>
   <div class="card-footer">
     <div class="row justify-content-end">
       <button class="btn btn-success" id="b" (click)="add()" [disabled]="!f.form.valid">
         <i fa class="fa fa-check"></i> Agregar</button>
+      <button type="button" (click)="mostrarHistorico()" class="btn btn-primary">Vehiculos</button>
     </div>
   </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <table class="table table-striped" [mfData]="vehiculos" #mf="mfDataTable" [mfRowsOnPage]="4">
+    <thead>
+      <tr>
+        <th>
+          <mfDefaultSorter by="patente">Patente</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="marca">Marca</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="modelo">Modelo</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="disponible">disponible</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="gestionar">Gestionar</mfDefaultSorter>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of mf.data">
+        <td>{{item.patente}}</td>
+        <td>{{item.marca}}</td>
+        <td>{{item.modelo}}</td>
+        <td>{{item.disponible ? 'Si':'No'}}</td>
+        <td>
+          <button type="button" class="btn btn-sm btn-warning" (click)="seleccionar(item)" data-toggle="modal" data-target="#modificar">modificar</button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="eliminar(item)">eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">
+          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
 </div>
+
+
+<div class="modal fade" id="modificar" tabindex="-1" role="dialog" aria-labelledby="modificarlabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar Vehiculo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="form" #form="ngForm">
+        <div class="form-group row">
+          <div class="col">
+            <small class="text-muted">Patente:</small>
+            <input class="form-control" name="iname" id="iname" #iname="ngModel" [(ngModel)]="index.patente" required>
+          </div>
+          <div class="col">
+            <small class="text-muted">Marca:</small>
+            <input class="form-control" name="iap" id="iap" #iap="ngModel" [(ngModel)]="index.marca" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <small class="text-muted">Modelo:</small>
+          <input class="form-control" name="itel" id="itel" #itel="ngModel" [(ngModel)]="index.modelo" required>
+        </div>
+
+        <div class="form-group">
+          <small class="text-muted">¿Disponible?:</small>
+          <select class="form-control" required name="disp" [(ngModel)]="index.disponible">
+            <option value="true">Si</option>
+            <option value="false">No</option>
+            </select>
+        </div>
+      </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" (click)="update()" [disabled]="!form.valid">
+            <i fa class="fa-save"></i> Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>

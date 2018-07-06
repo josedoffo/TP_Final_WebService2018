@@ -15,9 +15,7 @@ export class UsuarioServiceService {
   }
  
   getUsusarios() {
-
     return this._http.get("http://localhost/tpfinal/web/app_dev.php/usuario/").map(res => res.json());
-
   }
 
 

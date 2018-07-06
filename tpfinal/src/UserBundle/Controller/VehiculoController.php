@@ -87,21 +87,17 @@ class VehiculoController extends Controller
      */
     public function editAction(Request $request, Vehiculo $vehiculo)
     {
-        $deleteForm = $this->createDeleteForm($vehiculo);
-        $editForm = $this->createForm('UserBundle\Form\VehiculoType', $vehiculo);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('vehiculo_edit', array('id' => $vehiculo->getId()));
-        }
-
-        return $this->render('vehiculo/edit.html.twig', array(
-            'vehiculo' => $vehiculo,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace($data);
+        $em = $this->getDoctrine()->getManager();
+        $vehiculo = $em->getRepository('UserBundle:Vehiculo')->find($vehiculo);
+        $vehiculo->setPatente($request->request->get('patente'));
+        $vehiculo->setMarca($request->request->get('marca'));
+        $vehiculo->setModelo($request->request->get('modelo'));
+        $em->persist($vehiculo);
+        $em->flush();
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
     }
 
     /**
@@ -112,16 +108,15 @@ class VehiculoController extends Controller
      */
     public function deleteAction(Request $request, Vehiculo $vehiculo)
     {
-        $form = $this->createDeleteForm($vehiculo);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($vehiculo);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $vehiculo = $em->getRepository('UserBundle:Vehiculo')->find($vehiculo);
+        if (!$vehiculo){
+            throw $this->createNotFoundException('id incorrecta');
         }
-
-        return $this->redirectToRoute('vehiculo_index');
+        $em->remove($vehiculo);
+        $em->flush();
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
     }
 
     /**

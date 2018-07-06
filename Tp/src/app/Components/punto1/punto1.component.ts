@@ -69,7 +69,7 @@ export class Punto1Component implements OnInit {
         return false;
       }      
     )
-    alert("Venta Eliminada");
+    alert("Usuario Eliminado");
     this.cargarUsuarios();
   }
   ind(item){

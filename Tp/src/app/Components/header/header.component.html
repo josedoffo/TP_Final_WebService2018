@@ -11,16 +11,22 @@
               <a class="nav-link"  [routerLink]="['home']">Home</a>
             </li>
         <li class="nav-item">
-          <a class="nav-link"  [routerLink]="['punto1']">Gestion de Usuarios</a>
+          <a class="nav-link"  *ngIf="authenticationService.userLoggedIn && authenticationService.userAdmin " [routerLink]="['punto1']">Gestion de Usuarios</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['punto2']" >Gestion de Vehiculos</a>
+          <a class="nav-link" *ngIf="authenticationService.userLoggedIn && authenticationService.userAdmin" [routerLink]="['punto2']" >Gestion de Vehiculos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="authenticationService.userLoggedIn"  [routerLink]="['reservas']">Reservar Vehiculo</a> 
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="authenticationService.userLoggedIn" [routerLink]="['novedades']">Novedades</a>
         </li>
         <div>
             <li class="nav-item">
                 <a class="nav-link" *ngIf="!authenticationService.userLoggedIn" [routerLink]="['login']">Login</a>
                 <a class="nav-link" *ngIf="authenticationService.userLoggedIn" [routerLink]="['login']" (click)="logout()">
-                  {{authenticationService.userLogged.username}} logout
+                  {{authenticationService.userLogged.username}} Logout
                 </a>
             </li>
         </div>      

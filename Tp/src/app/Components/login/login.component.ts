@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
 
   userform: Usuario = new Usuario();
   returnUrl: string;
+  public temp = new Usuario();
 
 
   constructor(
@@ -33,11 +34,18 @@ export class LoginComponent implements OnInit {
           console.log(user);
           if (user.usuario != null) {
             //vbles para mostrar-ocultar cosas en el header
-            this.authenticationService.userLoggedIn = true;
+            this.authenticationService.userLoggedIn = true;            
             this.authenticationService.userLogged = user;
             //localstorage usado para mostrar o no un componente
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.router.navigateByUrl('/home');
+           if(user.perfil=='Administrador'){
+            this.authenticationService.userAdmin=true;
+            alert("usuario admin");            
+           }
+          }
+          else{
+            alert("Usuario/Contraseña invalido");
           }
         },
         error => {

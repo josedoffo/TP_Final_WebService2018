@@ -49,4 +49,30 @@ class ReservaController extends Controller
             'reserva' => $reserva,
         ));
     }
+
+     /**
+     * Creates a new reserva entity.
+     *
+     * @Route("/new", name="reserva_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace($data);
+        $reserva = new Reserva();
+
+        $fecha = new \DateTime($request->request->get('fecha'));
+        $reserva->setFechaRenta($fecha);
+        $reserva->setUsuario($request->request->get('usuario'));
+        $reserva->setVehiculo($request->request->get('vehiculo'));
+        $reserva->setDias($request->request->get('dias'));
+        $reserva->setCostoRenta($request->request->get('costoRenta'));
+        $reserva->setEstado($request->request->get('estado'));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($reserva);
+        $em->flush();
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
+    }
 }

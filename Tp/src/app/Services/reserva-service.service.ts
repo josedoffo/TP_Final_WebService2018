@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http, Response, Headers} from "@angular/http"; 
+import {Http, Response, Headers,RequestOptions} from "@angular/http"; 
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs/Observable";
 
@@ -12,8 +12,15 @@ export class ReservaServiceService {
 
   }
   getReserva(){ 
- 
    return this._http.get("http://localhost/tpfinal/web/app_dev.php/reserva/").map(res => res.json()); 
- 
   } 
+  enviarReserva(reserva) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let body = JSON.stringify(reserva);
+    console.log("entro service create");
+    return this._http.post('http://localhost/tpfinal/web/app_dev.php/reserva/new', body, options)
+      .map((res: Response) => res.json());
+  }
+
 }

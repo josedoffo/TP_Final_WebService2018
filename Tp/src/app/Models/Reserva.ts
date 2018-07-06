@@ -3,7 +3,6 @@ import { Vehiculo } from './Vehiculo';
 import { ViewEncapsulation } from '@angular/compiler/src/core';
 
 export class Reserva {
-    id: number
     usuario: Usuario
     vehiculo: Vehiculo
     dias: number
@@ -11,8 +10,7 @@ export class Reserva {
     fechaRenta: Date
     estado: string
     
-    constructor(id?:number,user?:Usuario,vehiculo?:Vehiculo,dias?:number,costoRenta?:number,fechaRenta?:Date,estado?:string){
-        this.id=id;
+    constructor(user?:Usuario,vehiculo?:Vehiculo,dias?:number,costoRenta?:number,fechaRenta?:Date,estado?:string){
         this.usuario=user;
         this.vehiculo=vehiculo;
         this.dias=dias;

@@ -10,7 +10,7 @@ import { Usuario } from '../models/usuario';
 export class AuthenticationService {
   userLoggedIn : boolean = false;
   userLogged: Usuario;
-
+  userAdmin:boolean= false;
   constructor(private http:Http) { }
   login(username: string, password: string) {
     return this.http.post('http://localhost/tpfinal/web/app_dev.php/usuario/authenticate', JSON.stringify({ usuario: username, password: password }))
@@ -22,7 +22,7 @@ logout() {
     localStorage.removeItem('currentUser');
     this.userLogged = new Usuario();
     this.userLoggedIn = false;  
+    this.userAdmin=false;
 } 
-
 
 }
