@@ -28,10 +28,12 @@ export class Punto2Component implements OnInit {
     var reader= new FileReader;
     reader.onload= (event:any) =>{
       this.imgUrl= event.target.result;
+      this.index.pathimagen=event.target.result;
     }
     reader.readAsDataURL(this.FileToUpload);
     
   }
+
   seleccionar(auto){
     this.index=auto;
     console.log(this.index);
@@ -66,6 +68,7 @@ export class Punto2Component implements OnInit {
             }
       );
       this.mostrarHistorico();
+      alert("Vehiculo agregado exitosamante");
   }
 
   public eliminar(auto: Vehiculo){
@@ -85,6 +88,7 @@ export class Punto2Component implements OnInit {
       }      
     );
     this.mostrarHistorico();
+    alert("Vehiculo eliminado");
   }
 
   update(){
@@ -102,6 +106,7 @@ export class Punto2Component implements OnInit {
         console.log(error);
         return false;
       });
+    console.log(this.index);
   }
 
   onFile(event){

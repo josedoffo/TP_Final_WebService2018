@@ -29,13 +29,11 @@ class UsuarioController extends Controller
      */
     public function authenticateAction(Request $request)
     {
-
         $data = json_decode($request->getContent(), true);
         $request->request->replace($data);
         //creamos un usuario
         $username = $request->request->get('usuario');
         $userpassword = $request->request->get('password');
-
         $criteria = array('usuario' => $username, 'password' => $userpassword);
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository("UserBundle:Usuario")->findBy($criteria);

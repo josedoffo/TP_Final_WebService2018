@@ -4,7 +4,7 @@
     <div class="form-group">
         <small class="text-muted">Seleccione el Vehiculo</small> 
       <select class="form-control" [(ngModel)]="nuevo.vehiculo" name="cat" id="cat" #cat="ngModel" required>
-          <option *ngFor="let z of vehiculoArray" [ngValue]="z"> {{z.patente}}</option>
+          <option *ngFor="let z of vehiculoArray" [ngValue]="z.id"> {{z.patente}}</option>
       </select>
      
     </div>
@@ -37,7 +37,7 @@
     <thead>
       <tr>
         <th>
-          <mfDefaultSorter by="usuaio.nombres">Usuario</mfDefaultSorter>
+          <mfDefaultSorter by="usuario.nombres">Usuario</mfDefaultSorter>
         </th>
         <th>
           <mfDefaultSorter by="vehiculo.patente">Patente del Vehiculo</mfDefaultSorter>
@@ -60,21 +60,19 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of mf.data">
-        <td>{{item.usuario.nombres}}</td>
-        <td>{{item.vehiculo.patente}}</td>
+        <td>{{item.usuario}}</td>
+        <td>{{item.vehiculo}}</td>
         <td>{{item.dias}}</td>
         <td>{{item.costoRenta}}</td>
         <td>{{item.fechaRenta.timestamp * 1000 | date: 'dd/MM/yyyy'}}</td>
         <td>{{item.estado}}</td>
         <td>
-        <button class="btn btn-info"><i fa class="fa fa-search"></i> Detalles</button>  
+        <button class="btn btn-info" (click)="detalles(item)"><i fa class="fa fa-search"></i> Detalles</button>  
         </td>
         <td>
           <button class="btn btn-danger" (click)="borrarUsuario(item)">
             <i fa class="fa fa-trash"></i> Borrar</button>
         </td>
-        
-
       </tr>
     </tbody>
     <tfoot>

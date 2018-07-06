@@ -36,7 +36,6 @@ export class ReservaComponent implements OnInit {
     this.nuevo.usuario=JSON.parse(localStorage.getItem('currentUser'));
     this.nuevo.estado="pendiente";
     this.nuevo.fechaRenta= new Date();
-   
     console.log(this.nuevo);
     this.service3.enviarReserva(this.nuevo).subscribe(
       data => {
@@ -65,4 +64,23 @@ export class ReservaComponent implements OnInit {
     )
     console.log(this.reservaArray);
   }
+
+  detalles(item){
+    console.log(item);
+  }
+  public borrarUsuario(res: Reserva){
+    this.service3.borrarReserva(res).subscribe(
+      data => {
+        console.log("borrado correctamente.")
+        return true;
+      },
+      error => {
+        console.error("Error borrando!");
+        console.log(error);
+        return false;
+      }      
+    )
+    alert("Reserva Eliminado");
+    this.consultarReservas();
+}
 }

@@ -105,30 +105,44 @@
       </div>
       <div class="modal-body">
         <form id="form" #form="ngForm">
-        <div class="form-group row">
-          <div class="col">
-            <small class="text-muted">Patente:</small>
-            <input class="form-control" name="iname" id="iname" #iname="ngModel" [(ngModel)]="index.patente" required>
+          <div class="form-group row">
+            <div class="col">
+              <small class="text-muted">Patente:</small>
+              <input class="form-control" name="iname" id="iname" #iname="ngModel" [(ngModel)]="index.patente" required>
+            </div>
+            <div class="col">
+              <small class="text-muted">Marca:</small>
+              <input class="form-control" name="iap" id="iap" #iap="ngModel" [(ngModel)]="index.marca" required>
+            </div>
           </div>
-          <div class="col">
-            <small class="text-muted">Marca:</small>
-            <input class="form-control" name="iap" id="iap" #iap="ngModel" [(ngModel)]="index.marca" required>
+
+          <div class="form-group">
+            <small class="text-muted">Modelo:</small>
+            <input class="form-control" name="itel" id="itel" #itel="ngModel" [(ngModel)]="index.modelo" required>
           </div>
-        </div>
 
-        <div class="form-group">
-          <small class="text-muted">Modelo:</small>
-          <input class="form-control" name="itel" id="itel" #itel="ngModel" [(ngModel)]="index.modelo" required>
-        </div>
-
-        <div class="form-group">
-          <small class="text-muted">¿Disponible?:</small>
-          <select class="form-control" required name="disp" [(ngModel)]="index.disponible">
-            <option value="true">Si</option>
-            <option value="false">No</option>
+          <div class="form-group">
+            <small class="text-muted">¿Disponible?:</small>
+            <select class="form-control" required name="disp" [(ngModel)]="index.disponible">
+              <option value="true">Si</option>
+              <option value="false">No</option>
             </select>
-        </div>
-      </form>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-header">Sube una imagen</div>
+                  <div class="card-body content-center">
+                    <img [src]="imgUrl" style="width: 250px;height: 200px;">
+                    <input type="file" style="display:none" (change)="handleFileInput($event.target.files)" #image accept="image/*">
+                    <button type="button" class="btn btn-primary" (click)="image.click()">Choose file</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
         <div class="modal-footer">
           <button type="button" class="btn btn-success" (click)="update()" [disabled]="!form.valid">
             <i fa class="fa-save"></i> Guardar Cambios</button>

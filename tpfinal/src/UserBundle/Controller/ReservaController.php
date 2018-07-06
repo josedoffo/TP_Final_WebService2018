@@ -27,13 +27,19 @@ class ReservaController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();  
-        $empresas = $em->getRepository('UserBundle:Reserva')->findAll();  
-        $response = new Response();  $encoders = array(new JsonEncoder()); 
-        $normalizers = array(new ObjectNormalizer()); 
+        $em = $this->getDoctrine()->getManager();
+        $mensajes = $em->getRepository('UserBundle:Reserva')->findAll();
+        $response = new Response();
+        $encoders = array(new JsonEncoder());
+
+        $normalizers = array(new ObjectNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
-        $response->setContent(json_encode(array(  'reservas' => $serializer->serialize($empresas, 'json'),  )));
-        $response->headers->set('Content-Type', 'application/json');  return $response;
+        $response->setContent(json_encode(array(
+        'reservas' => $serializer->serialize($mensajes, 'json'),
+        )));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;        
+
     }
 
     /**
@@ -58,21 +64,55 @@ class ReservaController extends Controller
      */
     public function newAction(Request $request)
     {
+
         $data = json_decode($request->getContent(), true);
         $request->request->replace($data);
-        $reserva = new Reserva();
-
-        $fecha = new \DateTime($request->request->get('fecha'));
-        $reserva->setFechaRenta($fecha);
-        $reserva->setUsuario($request->request->get('usuario'));
-        $reserva->setVehiculo($request->request->get('vehiculo'));
-        $reserva->setDias($request->request->get('dias'));
-        $reserva->setCostoRenta($request->request->get('costoRenta'));
-        $reserva->setEstado($request->request->get('estado'));
+        $mensaje = new Reserva();
+        $mensaje->setDias($request->request->get('dias'));
+        $mensaje->setCostoRenta($request->request->get('costoRenta'));
+        $mensaje->setEstado($request->request->get('estado'));
+        $fecha = new \DateTime($request->request->get('fechaRenta'));
+        $mensaje->setFechaRenta($fecha);
+        //confecciono una entidad empresa para asignar a mensaje
+        $veArray= $request->request->get('vehiculo');
+        $idve = $veArray['id'];
         $em = $this->getDoctrine()->getManager();
-        $em->persist($reserva);
+        $ve = $em->getRepository("UserBundle:Vehiculo")->find($idve);
+        $mensaje->setVehiculo($ve);
+        $mensaje->setVehiculo($request->request->get('vehiculo'));     
+   //     $em->persist($mensaje);
+   //     $em->flush();
+        $userArray= $request->request->get('usuario');
+        $iduser = $userArray['id'];
+       // $e = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository("UserBundle:Usuario")->find($iduser);
+        $mensaje->setUsuario($usuario);
+        $mensaje->setUsuario($request->request->get('usuario'));
+        $em->persist($mensaje);
+        $em->flush();
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
+    }
+
+
+
+      /**
+     * Deletes a reserva entity.
+     *
+     * @Route("/{id}", name="reserva_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository('UserBundle:Reserva')->find($id);
+        if (!$usuario){
+            throw $this->createNotFoundException('id incorrecta');
+        }
+        $em->remove($usuario);
         $em->flush();
         $result['status'] = 'ok';
         return new Response(json_encode($result), 200);
     }
 }
+

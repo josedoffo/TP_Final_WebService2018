@@ -22,5 +22,10 @@ export class ReservaServiceService {
     return this._http.post('http://localhost/tpfinal/web/app_dev.php/reserva/new', body, options)
       .map((res: Response) => res.json());
   }
+  borrarReserva(reserva) {
+    console.log(reserva.id);
+    return this._http.delete(('http://localhost/tpfinal/web/app_dev.php/reserva/' + reserva.id))
+      .map((res: Response) => res.json());
+  }
 
 }
