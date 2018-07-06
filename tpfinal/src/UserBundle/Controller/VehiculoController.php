@@ -45,22 +45,22 @@ class VehiculoController extends Controller
      */
     public function newAction(Request $request)
     {
-        $vehiculo = new Vehiculo();
-        $form = $this->createForm('UserBundle\Form\VehiculoType', $vehiculo);
-        $form->handleRequest($request);
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace($data);
+       
+        $veh = new Vehiculo();
+        $veh->setPatente($request->request->get('patente'));
+        $veh->setMarca($request->request->get('marca'));
+        $veh->setModelo($request->request->get('modelo'));
+        $veh->setPathimagen($request->request->get('pathimagen'));
+        $veh->setDisponible($request->request->get('disponible'));
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($vehiculo);
-            $em->flush();
-
-            return $this->redirectToRoute('vehiculo_show', array('id' => $vehiculo->getId()));
-        }
-
-        return $this->render('vehiculo/new.html.twig', array(
-            'vehiculo' => $vehiculo,
-            'form' => $form->createView(),
-        ));
+        $em = $this->getDoctrine()->getManager();    
+        $em->persist($veh);
+        $em->flush();
+       
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
     }
 
     /**
@@ -89,15 +89,19 @@ class VehiculoController extends Controller
     {
         $data = json_decode($request->getContent(), true);
         $request->request->replace($data);
-        $em = $this->getDoctrine()->getManager();
-        $vehiculo = $em->getRepository('UserBundle:Vehiculo')->find($vehiculo);
-        $vehiculo->setPatente($request->request->get('patente'));
-        $vehiculo->setMarca($request->request->get('marca'));
-        $vehiculo->setModelo($request->request->get('modelo'));
-        $em->persist($vehiculo);
-        $em->flush();
+        $sn = $this->getDoctrine()->getManager();
+        $veh = $sn->getRepository('UserBundle:Vehiculo')->find($request->request->get('id'));
+
+        $veh->setPatente($request->request->get('patente'));
+        $veh->setMarca($request->request->get('marca'));
+        $veh->setModelo($request->request->get('modelo'));
+        $veh->setPathimagen($request->request->get('pathimagen'));
+        $veh->setDisponible($request->request->get('disponible'));
+        $sn->flush();
+
         $result['status'] = 'ok';
         return new Response(json_encode($result), 200);
+
     }
 
     /**
@@ -108,13 +112,12 @@ class VehiculoController extends Controller
      */
     public function deleteAction(Request $request, Vehiculo $vehiculo)
     {
-        $em = $this->getDoctrine()->getManager();
-        $vehiculo = $em->getRepository('UserBundle:Vehiculo')->find($vehiculo);
-        if (!$vehiculo){
-            throw $this->createNotFoundException('id incorrecta');
-        }
-        $em->remove($vehiculo);
-        $em->flush();
+        $data = new Vehiculo;
+        $sn = $this->getDoctrine()->getManager();
+    
+        $veh = $this->getDoctrine()->getRepository('UserBundle:Vehiculo')->find($vehiculo);
+        $sn->remove($veh);
+        $sn->flush();
         $result['status'] = 'ok';
         return new Response(json_encode($result), 200);
     }
