@@ -33,7 +33,6 @@ eliminarNovedad(novedad)
   let headers = new Headers({ 'Content-Type': 'application/json' });
   let options = new RequestOptions({ headers: headers });
   let body = JSON.stringify(novedad);
-
   let postURL = "http://localhost/tpfinal/web/app_dev.php/novedad/"+novedad.id;
   return this._http.delete(postURL, options).map((res: Response) => res.json());
 }

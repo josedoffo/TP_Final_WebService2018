@@ -1,22 +1,13 @@
 <div id="z">
   <h4 class="card-header">Novedades</h4>
   <form id="f">
-    <div class="form-group">
-      <small class="text-muted">Seleccione el vehiculo:</small>
-      <select class="form-control">
-        <option>1</option>
-      </select>
-    </div>
     <div class="form-group row">
       <div class="col">
-        <span>Ingrese su mensaje:</span>
-      </div>
-      <div class="col">
-        <span>Caracteres restantes:</span>
+        <span>Caracteres restantes: {{250 - nuevo.Texto.length}}</span>
       </div>
     </div>
     <div class="form-group">
-      <textarea rows="5" class="form-control"></textarea>
+      <textarea maxlength="250" rows="5" class="form-control" name="text" id="text" #text="ngModel" [(ngModel)]="nuevo.Texto"></textarea>
     </div>
    
   </form>
@@ -25,4 +16,73 @@
         <button class="btn btn-success" id="b"> <i fa class="fa fa-check"></i> Enviar</button>
       </div>
     </div>
+
+
+    <table class="table table-striped" [mfData]="novedadesArray" #mf="mfDataTable" [mfRowsOnPage]="5">
+        <thead>
+          <tr>
+            <th>
+              <mfDefaultSorter by="usuario.nombres">Usuario</mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="Texto">Texto</mfDefaultSorter>
+            </th>
+            <th>
+              <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+            </th>
+            <th>Modificar</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mf.data">
+            <td>{{item.usuario}}</td>
+            <td>{{item.texto}}</td>
+            <td>{{item.estado}}</td>
+            <td>
+            <button class="btn btn-info" (click)="detalles(item)" data-toggle="modal" data-target="#modificar"><i fa class="fa fa-cog"></i> Modificar</button>  
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="borrarUsuario(item)">
+                <i fa class="fa fa-trash"></i> Borrar</button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+
+
 </div>
+
+
+
+
+<div class="modal fade" id="modificar" tabindex="-1" role="dialog" aria-labelledby="modificarlabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modificar Novedad</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+  
+          <div class="form-group">
+            <small class="text-muted">Caracteres Restantes {{250 - index.texto}}</small>
+            <textarea class="form-control" maxlength="250" name="indexText" id="indexText" #indexText="ngModel" [(ngModel)]="index.texto">
+            </textarea> 
+          </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="update()">
+              <i fa class="fa-save"></i> Guardar Cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
