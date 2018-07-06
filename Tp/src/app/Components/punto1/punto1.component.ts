@@ -7,7 +7,8 @@ import { Jsonp } from '@angular/http';
 @Component({
   selector: 'app-punto1',
   templateUrl: './punto1.component.html',
-  styleUrls: ['./punto1.component.css']
+  styleUrls: ['./punto1.component.css'],
+  providers:[UsuarioServiceService]
 })
 export class Punto1Component implements OnInit {
   usuarios:Array<Usuario>

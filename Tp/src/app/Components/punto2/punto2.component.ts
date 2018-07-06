@@ -5,7 +5,8 @@ import { VehiculoServiceService } from './../../Services/vehiculo-service.servic
 @Component({
   selector: 'app-punto2',
   templateUrl: './punto2.component.html',
-  styleUrls: ['./punto2.component.css']
+  styleUrls: ['./punto2.component.css'],
+  providers: [VehiculoServiceService]
 })
 export class Punto2Component implements OnInit {
 
@@ -37,8 +38,6 @@ export class Punto2Component implements OnInit {
   }
     
   public mostrarHistorico(){
-    // Llamamos al método del servicio
-    // para cargar todas las Notas
     this.servicio.getVehiculo().subscribe(
         result => {
           this.vehiculos = JSON.parse(result.vehiculos);
@@ -48,13 +47,12 @@ export class Punto2Component implements OnInit {
           alert("Error en la petición");
       }
     );
-    //this.ev = new Evaluacion(1,"Apu001111",4,7,9);
-    //this.notas.push(this.ev);
+
     console.log(this.vehiculos)
   }
 
   add(){
-    this.nuevo.pathimagen = "Link Imagen";
+    this.nuevo.pathimagen = this.imgUrl;
     console.log(this.nuevo);
     this.servicio.enviarVehiculo(this.nuevo).subscribe(
             data => {
@@ -75,11 +73,13 @@ export class Punto2Component implements OnInit {
     
     this.servicio.borrarVehiculo(auto).subscribe(
     data=> {
-    console.log("borrado correctamente.")
+    console.log("borrado correctamente.");
+    this.mostrarHistorico();
     return true;
           },
     error=> {
     console.error("Error deleting!");
+    this.mostrarHistorico();
     console.log(error);
     return false;
       }      
@@ -92,6 +92,7 @@ export class Punto2Component implements OnInit {
       data => {
         console.log("modificado correctamente.")
         alert("Actualizacion Completada");
+        
         //actualizo la tabla de mensajes
         this.mostrarHistorico();      
         return true;
