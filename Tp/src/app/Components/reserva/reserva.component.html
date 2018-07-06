@@ -54,7 +54,7 @@
         <th>
             <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
           </th>
-        <th>Detalles</th>
+        <th>Modificar</th>
         <th>Eliminar</th>
       </tr>
     </thead>
@@ -67,7 +67,7 @@
         <td>{{item.fechaRenta.timestamp * 1000 | date: 'dd/MM/yyyy'}}</td>
         <td>{{item.estado}}</td>
         <td>
-        <button class="btn btn-info" (click)="detalles(item)"><i fa class="fa fa-search"></i> Detalles</button>  
+        <button class="btn btn-info" (click)="detalles(item)" data-toggle="modal" data-target="#modificar"><i fa class="fa fa-cog"></i> Modificar</button>  
         </td>
         <td>
           <button class="btn btn-danger" (click)="borrarUsuario(item)">
@@ -84,3 +84,51 @@
     </tfoot>
   </table>
 </div>
+
+
+
+<div class="modal fade" id="modificar" tabindex="-1" role="dialog" aria-labelledby="modificarlabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar Reserva</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-group">
+          <small class="text-muted">Usuario</small>
+          <input class="form-control" disabled name="indexUser" id="indexUser" #indexUser="ngModel" [(ngModel)]="index.usuario">
+        </div>
+
+        <div class="form-group">
+            <small class="text-muted">Vehiculo</small>
+            <input class="form-control" disabled name="indexPat" id="indexPat" #indexPat="ngModel" [(ngModel)]="index.vehiculo">
+        </div>
+
+        <div class="form-group">
+            <small class="text-muted">Dias de reserva</small>
+            <input class="form-control" name="indexD" id="indexD" #indexD="ngModel" (ngModelChange)="precio()" [(ngModel)]="index.dias">
+        </div>
+
+        <div class="form-group">
+            <small class="text-muted">Costo de renta</small>
+            <input class="form-control" disabled name="indexC" id="indexC" #indexC="ngModel" [(ngModel)]="index.costoRenta">
+        </div>
+        
+
+
+
+
+
+
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" (click)="update()">
+            <i fa class="fa-save"></i> Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>

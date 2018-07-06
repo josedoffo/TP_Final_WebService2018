@@ -27,5 +27,14 @@ export class ReservaServiceService {
     return this._http.delete(('http://localhost/tpfinal/web/app_dev.php/reserva/' + reserva.id))
       .map((res: Response) => res.json());
   }
+  modificarReserva(reserva) {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let body = JSON.stringify(reserva);
+    //envio en el body el mensaje transformado en un JSON
+    return this._http.post('http://localhost/tpfinal/web/app_dev.php/reserva/' + reserva.id + '/edit', body, options)
+      .map((res: Response) => res.json());
+  }
+
 
 }

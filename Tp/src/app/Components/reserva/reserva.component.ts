@@ -16,10 +16,12 @@ export class ReservaComponent implements OnInit {
   reservaArray=new Array<Reserva>();
   vehiculoArray=new Array<Vehiculo>();
   nuevo:Reserva;
+  index:Reserva;
   constructor(private service :VehiculoServiceService, private service2 : AuthenticationService,private service3 : ReservaServiceService) { }
 
   ngOnInit() {
     this.nuevo=new Reserva(this.service2.userLogged,new Vehiculo(null,null,null,null,null),null,null,null,null);
+    this.index=new Reserva(this.service2.userLogged,new Vehiculo(null,null,null,null,null),null,null,null,null);
     this.service.getVehiculo().subscribe(
       result => {
               this.vehiculoArray = JSON.parse(result.vehiculos);
@@ -31,6 +33,7 @@ export class ReservaComponent implements OnInit {
   }
   precio(){
     this.nuevo.costoRenta=this.nuevo.dias*150;
+    this.index.costoRenta=this.index.dias*150;
   }
   reservar(){
     this.nuevo.usuario=JSON.parse(localStorage.getItem('currentUser'));
@@ -67,7 +70,25 @@ export class ReservaComponent implements OnInit {
 
   detalles(item){
     console.log(item);
+    this.index=item;
   }
+
+  update(){
+    this.service3.modificarReserva(this.index).subscribe(
+    data => {
+      console.log("modificado correctamente.")
+      alert("Actualizacion Completada");
+      //actualizo la tabla de mensajes
+      this.consultarReservas();      
+      return true;
+    },
+    error => {
+      console.error("Error updating!");
+      console.log(error);
+      return false;
+    });
+  }
+  
   public borrarUsuario(res: Reserva){
     this.service3.borrarReserva(res).subscribe(
       data => {
