@@ -4,7 +4,7 @@
     <div class="form-group">
         <small class="text-muted">Seleccione el Vehiculo</small> 
       <select class="form-control" [(ngModel)]="nuevo.vehiculo" name="cat" id="cat" #cat="ngModel" required>
-          <option *ngFor="let z of vehiculoArray" [ngValue]="z.id"> {{z.patente}}</option>
+          <option *ngFor="let z of vehiculoArray" [ngValue]="z"> {{z.patente}}</option>
       </select>
      
     </div>
@@ -60,8 +60,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of mf.data">
-        <td>{{item.usuario}}</td>
-        <td>{{item.vehiculo}}</td>
+        <td>{{item.usuario.nombres}}</td>
+        <td>{{item.vehiculo.patente}}</td>
         <td>{{item.dias}}</td>
         <td>{{item.costoRenta}}</td>
         <td>{{item.fechaRenta.timestamp * 1000 | date: 'dd/MM/yyyy'}}</td>
@@ -100,12 +100,12 @@
 
         <div class="form-group">
           <small class="text-muted">Usuario</small>
-          <input class="form-control" disabled name="indexUser" id="indexUser" #indexUser="ngModel" [(ngModel)]="index.usuario">
+          <input class="form-control" disabled name="indexUser" id="indexUser" #indexUser="ngModel" [(ngModel)]="index.usuario.nombres">
         </div>
 
         <div class="form-group">
             <small class="text-muted">Vehiculo</small>
-            <input class="form-control" disabled name="indexPat" id="indexPat" #indexPat="ngModel" [(ngModel)]="index.vehiculo">
+            <input class="form-control" disabled name="indexPat" id="indexPat" #indexPat="ngModel" [(ngModel)]="index.vehiculo.patente">
         </div>
 
         <div class="form-group">

@@ -7,8 +7,8 @@ export class Usuario {
     usuario: string
     password: string
     perfil: string
-
-    constructor (apellido?:string,nombres?:string,dni?:number,email?:string,telefono?:number,usuario?:string,password?:string,perfil?:string){
+    id:number
+    constructor (apellido?:string,nombres?:string,dni?:number,email?:string,telefono?:number,usuario?:string,password?:string,perfil?:string, id?:number){
     this.apellido=apellido;
     this.nombres=nombres;
     this.dni=dni;
@@ -17,5 +17,6 @@ export class Usuario {
     this.usuario=usuario;
     this.password=password;
     this.perfil=perfil;
+    this.id = id;
     }
 }

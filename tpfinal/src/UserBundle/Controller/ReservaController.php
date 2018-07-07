@@ -79,7 +79,7 @@ class ReservaController extends Controller
         $em = $this->getDoctrine()->getManager();
         $ve = $em->getRepository("UserBundle:Vehiculo")->find($idve);
         $mensaje->setVehiculo($ve);
-        $mensaje->setVehiculo($request->request->get('vehiculo'));     
+        //$mensaje->setVehiculo($request->request->get('vehiculo'));     
    //     $em->persist($mensaje);
    //     $em->flush();
         $userArray= $request->request->get('usuario');
@@ -87,7 +87,7 @@ class ReservaController extends Controller
        // $e = $this->getDoctrine()->getManager();
         $usuario = $em->getRepository("UserBundle:Usuario")->find($iduser);
         $mensaje->setUsuario($usuario);
-        $mensaje->setUsuario($request->request->get('usuario'));
+//        $mensaje->setUsuario($request->request->get('usuario'));
         $em->persist($mensaje);
         $em->flush();
         $result['status'] = 'ok';
@@ -95,6 +95,25 @@ class ReservaController extends Controller
     }
 
 
+     /**
+     * Displays a form to edit an existing usuario entity.
+     *
+     * @Route("/{id}/edit", name="reserva_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function editAction(Request $request,Reserva $usuario)
+    {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace($data);
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository('UserBundle:Reserva')->find($usuario);
+        $usuario->setDias($request->request->get('dias'));
+        $usuario->setCostoRenta($request->request->get('costoRenta'));
+        $em->persist($usuario);
+        $em->flush();
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
+    }
 
       /**
      * Deletes a reserva entity.

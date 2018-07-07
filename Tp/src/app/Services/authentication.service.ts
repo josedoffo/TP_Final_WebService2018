@@ -11,7 +11,9 @@ export class AuthenticationService {
   userLoggedIn : boolean = false;
   userLogged: Usuario;
   userAdmin:boolean= false;
-  constructor(private http:Http) { }
+  constructor(private http:Http) { 
+    this.userLogged = (this.userLogged == null) ? new Usuario() : this.userLogged;
+  }
   login(username: string, password: string) {
     return this.http.post('http://localhost/tpfinal/web/app_dev.php/usuario/authenticate', JSON.stringify({ usuario: username, password: password }))
         .map(res => res.json());

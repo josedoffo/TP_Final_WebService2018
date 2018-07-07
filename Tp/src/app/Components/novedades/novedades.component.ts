@@ -66,4 +66,25 @@ export class NovedadesComponent implements OnInit {
     alert("Novedad Eliminada");
     this.consultar();
 }
+
+
+
+send(){
+  this.nuevo.Usuario=JSON.parse(localStorage.getItem('currentUser'));
+  this.nuevo.estado="pendiente";
+  console.log(this.nuevo);
+  this.service.createNovedad(this.nuevo).subscribe(
+    data => {
+      console.log("envio ok");
+      console.log("agregado correctamente.")
+      return true;
+    },
+    error => {
+      console.error("Error saving!");
+      return false;
+    }
+    );
+    alert("Reserva Completada");
+    this.consultar();
+}
 }

@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
             //localstorage usado para mostrar o no un componente
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.router.navigateByUrl('/home');
+            this.authenticationService.userLogged = new Usuario(user.apellido, user.nombres, user.dni, user.email, user.telefono, user.username, "NELSON", user.perfil, user.id);
            if(user.perfil=='Administrador'){
             this.authenticationService.userAdmin=true;
             alert("usuario admin");            

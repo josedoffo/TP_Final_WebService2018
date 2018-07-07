@@ -13,7 +13,7 @@
   </form>
   <div class="card-footer">
       <div class="row justify-content-end">
-        <button class="btn btn-success" id="b"> <i fa class="fa fa-check"></i> Enviar</button>
+        <button class="btn btn-success" id="b" (click)="send()"> <i fa class="fa fa-check"></i> Enviar</button>
       </div>
     </div>
 
@@ -36,7 +36,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of mf.data">
-            <td>{{item.usuario}}</td>
+            <td>{{item.usuario.usuario}}</td>
             <td>{{item.texto}}</td>
             <td>{{item.estado}}</td>
             <td>
@@ -56,12 +56,7 @@
           </tr>
         </tfoot>
       </table>
-
-
 </div>
-
-
-
 
 <div class="modal fade" id="modificar" tabindex="-1" role="dialog" aria-labelledby="modificarlabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -75,7 +70,7 @@
         <div class="modal-body">
   
           <div class="form-group">
-            <small class="text-muted">Caracteres Restantes {{250 - index.texto}}</small>
+            <small class="text-muted">Caracteres Restantes {{250 - index.texto.length}}</small>
             <textarea class="form-control" maxlength="250" name="indexText" id="indexText" #indexText="ngModel" [(ngModel)]="index.texto">
             </textarea> 
           </div>

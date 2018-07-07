@@ -15,6 +15,7 @@ import {ReservaServiceService} from '../../Services/reserva-service.service'
 export class ReservaComponent implements OnInit {
   reservaArray=new Array<Reserva>();
   vehiculoArray=new Array<Vehiculo>();
+  filtro=new Array<Vehiculo>();
   nuevo:Reserva;
   index:Reserva;
   constructor(private service :VehiculoServiceService, private service2 : AuthenticationService,private service3 : ReservaServiceService) { }
@@ -38,7 +39,8 @@ export class ReservaComponent implements OnInit {
   reservar(){
     this.nuevo.usuario=JSON.parse(localStorage.getItem('currentUser'));
     this.nuevo.estado="pendiente";
-    this.nuevo.fechaRenta= new Date();
+    this.nuevo.fechaRenta= new Date("06-07-2018");
+    console.log(this.vehiculoArray);
     console.log(this.nuevo);
     this.service3.enviarReserva(this.nuevo).subscribe(
       data => {

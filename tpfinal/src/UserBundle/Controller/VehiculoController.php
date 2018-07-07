@@ -49,6 +49,7 @@ class VehiculoController extends Controller
         $request->request->replace($data);
        
         $veh = new Vehiculo();
+        
         $veh->setPatente($request->request->get('patente'));
         $veh->setMarca($request->request->get('marca'));
         $veh->setModelo($request->request->get('modelo'));

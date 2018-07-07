@@ -46,22 +46,21 @@ class NovedadController extends Controller
      */
     public function newAction(Request $request)
     {
-        $novedad = new Novedad();
-        $form = $this->createForm('UserBundle\Form\NovedadType', $novedad);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($novedad);
-            $em->flush();
-
-            return $this->redirectToRoute('novedad_show', array('id' => $novedad->getId()));
-        }
-
-        return $this->render('novedad/new.html.twig', array(
-            'novedad' => $novedad,
-            'form' => $form->createView(),
-        ));
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace($data);
+        $mensaje = new Novedad();
+        $mensaje->setTexto($request->request->get('Texto'));
+        $mensaje->setEstado($request->request->get('estado'));
+        $em = $this->getDoctrine()->getManager(); 
+        $userArray= $request->request->get('Usuario');
+        $iduser = $userArray['id'];
+        $usuario = $em->getRepository("UserBundle:Usuario")->find($iduser);
+        $mensaje->setUsuario($usuario);
+//        $mensaje->setUsuario($request->request->get('usuario'));
+        $em->persist($mensaje);
+        $em->flush();
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
     }
 
     /**
@@ -88,21 +87,15 @@ class NovedadController extends Controller
      */
     public function editAction(Request $request, Novedad $novedad)
     {
-        $deleteForm = $this->createDeleteForm($novedad);
-        $editForm = $this->createForm('UserBundle\Form\NovedadType', $novedad);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('novedad_edit', array('id' => $novedad->getId()));
-        }
-
-        return $this->render('novedad/edit.html.twig', array(
-            'novedad' => $novedad,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace($data);
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository('UserBundle:Novedad')->find($novedad);
+        $usuario->setTexto($request->request->get('texto'));
+        $em->persist($usuario);
+        $em->flush();
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
     }
 
     /**
@@ -111,18 +104,17 @@ class NovedadController extends Controller
      * @Route("/{id}", name="novedad_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Novedad $novedad)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($novedad);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($novedad);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository('UserBundle:Novedad')->find($id);
+        if (!$usuario){
+            throw $this->createNotFoundException('id incorrecta');
         }
-
-        return $this->redirectToRoute('novedad_index');
+        $em->remove($usuario);
+        $em->flush();
+        $result['status'] = 'ok';
+        return new Response(json_encode($result), 200);
     }
 
     /**

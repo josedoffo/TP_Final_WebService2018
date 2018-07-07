@@ -13,12 +13,14 @@ export class NovedadServiceService {
   getNovedad(){ 
    return this._http.get("http://localhost/tpfinal/web/app_dev.php/novedad/").map(res => res.json()); 
   } 
-  createNovedad(novedad) {
+
+createNovedad(novedad) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     let body = JSON.stringify(novedad);
     return this._http.post('http://localhost/tpfinal/web/app_dev.php/novedad/new', body, options).map((res: Response) => res.json());
 }
+
 updateNovedad(novedad)
 {
   let headers = new Headers({ 'Content-Type': 'application/json' });
