@@ -16,6 +16,7 @@ import {SlideshowModule} from 'ng-simple-slideshow';
 import { HomeComponent } from './Components/home/home.component';
 import { NovedadesComponent } from './Components/novedades/novedades.component';
 import {ReservaComponent} from './Components/reserva/reserva.component';
+import { StorageService } from './Services/storage.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +38,7 @@ imports: [
     HttpModule,
     SlideshowModule
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService,StorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

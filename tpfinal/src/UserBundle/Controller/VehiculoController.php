@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  */
 class VehiculoController extends Controller
 {
+
     /**
      * Lists all vehiculo entities.
      *

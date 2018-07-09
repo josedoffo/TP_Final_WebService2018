@@ -10,6 +10,12 @@ export class NovedadServiceService {
   constructor(private _http: Http) { 
 
   }
+
+  getPropia(username: string) {
+    return this._http.post('http://localhost/tpfinal/web/app_dev.php/novedad/propia', JSON.stringify({ usuario: username }))
+        .map(res => res.json());
+}
+
   getNovedad(){ 
    return this._http.get("http://localhost/tpfinal/web/app_dev.php/novedad/").map(res => res.json()); 
   } 

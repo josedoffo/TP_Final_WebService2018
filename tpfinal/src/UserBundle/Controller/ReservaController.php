@@ -19,6 +19,38 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  */
 class ReservaController extends Controller
 {
+
+    /**
+     * Validate user.
+     *
+     * @Route("/propio", name="reserva_propio")
+     * @Method({"GET", "POST"})
+     */
+    public function propioAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace($data);
+
+        $username = $request->request->get('usuario');
+        $criteria = array('usuario' => $username);
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository("UserBundle:Usuario")->findBy($criteria);
+        $criteria2 = array('usuario' => $user);
+        $novedade = $em->getRepository("UserBundle:Reserva")->findBy($criteria2);
+        //genero la respuesta hacia el cliente
+        $response = new Response();
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+        $response->setContent(json_encode(array(
+        'reservas' => $serializer->serialize($novedade, 'json'),
+        )));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+
+
     /**
      * Lists all reserva entities.
      *
@@ -109,6 +141,17 @@ class ReservaController extends Controller
         $usuario = $em->getRepository('UserBundle:Reserva')->find($usuario);
         $usuario->setDias($request->request->get('dias'));
         $usuario->setCostoRenta($request->request->get('costoRenta'));
+        $usuario->setEstado($request->request->get('estado'));
+
+        $veArray= $request->request->get('vehiculo');
+        $idve = $veArray['id'];
+        $em2 = $this->getDoctrine()->getManager();
+        $ve = $em2->getRepository("UserBundle:Vehiculo")->find($idve);
+        $ve->setDisponible( ($usuario->getEstado() == "aceptada") ? false : true);
+        $em2->flush();
+
+
+
         $em->persist($usuario);
         $em->flush();
         $result['status'] = 'ok';

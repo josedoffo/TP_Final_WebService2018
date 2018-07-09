@@ -11,6 +11,12 @@ export class ReservaServiceService {
   constructor(private _http: Http) { 
 
   }
+
+  getPropio(username: string) {
+    return this._http.post('http://localhost/tpfinal/web/app_dev.php/reserva/propio', JSON.stringify({ usuario: username }))
+        .map(res => res.json());
+}
+
   getReserva(){ 
    return this._http.get("http://localhost/tpfinal/web/app_dev.php/reserva/").map(res => res.json()); 
   } 

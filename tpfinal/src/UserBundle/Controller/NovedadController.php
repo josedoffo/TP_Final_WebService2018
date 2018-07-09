@@ -21,6 +21,40 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  */
 class NovedadController extends Controller
 {
+
+
+
+
+    /**
+     * Validate user.
+     *
+     * @Route("/propia", name="novedad_propia")
+     * @Method({"GET", "POST"})
+     */
+    public function propiaAction(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        $request->request->replace($data);
+
+        $username = $request->request->get('usuario');
+        $criteria = array('usuario' => $username);
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository("UserBundle:Usuario")->findBy($criteria);
+        $criteria2 = array('usuario' => $user);
+        $novedade = $em->getRepository("UserBundle:Novedad")->findBy($criteria2);
+        //genero la respuesta hacia el cliente
+        $response = new Response();
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+        $response->setContent(json_encode(array(
+        'novedades' => $serializer->serialize($novedade, 'json'),
+        )));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+
     /**
      * Lists all novedad entities.
      *
@@ -92,6 +126,7 @@ class NovedadController extends Controller
         $em = $this->getDoctrine()->getManager();
         $usuario = $em->getRepository('UserBundle:Novedad')->find($novedad);
         $usuario->setTexto($request->request->get('texto'));
+        $usuario->setEstado($request->request->get('estado'));
         $em->persist($usuario);
         $em->flush();
         $result['status'] = 'ok';

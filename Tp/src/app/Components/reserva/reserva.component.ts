@@ -4,43 +4,46 @@ import {VehiculoServiceService} from '../../Services/vehiculo-service.service';
 import {Reserva} from '../../Models/Reserva';
 import {AuthenticationService} from '../../Services/authentication.service';
 import {Usuario} from '../../Models/Usuario';
-import {ReservaServiceService} from '../../Services/reserva-service.service'
-
+import {ReservaServiceService} from '../../Services/reserva-service.service';
+import { StorageService } from '../../Services/storage.service';
 
 @Component({
   selector: 'app-reserva',
   templateUrl: './reserva.component.html',
-  styleUrls: ['./reserva.component.css']
+  styleUrls: ['./reserva.component.css'],
+  providers: [ VehiculoServiceService, ReservaServiceService]
 })
 export class ReservaComponent implements OnInit {
+/*  filtroArray= new Array<Reserva>();
   reservaArray=new Array<Reserva>();
   vehiculoArray=new Array<Vehiculo>();
-  filtro=new Array<Vehiculo>();
+  filtro=new Array<Vehiculo>();*/
+  reservaArray:Array<Reserva>;
+  
   nuevo:Reserva;
   index:Reserva;
-  constructor(private service :VehiculoServiceService, private service2 : AuthenticationService,private service3 : ReservaServiceService) { }
-
+  constructor(public authenticationService : AuthenticationService, private service3:ReservaServiceService , public storageservice:StorageService) {
+    console.log(authenticationService.userLogged);
+  }
   ngOnInit() {
-    this.nuevo=new Reserva(this.service2.userLogged,new Vehiculo(null,null,null,null,null),null,null,null,null);
-    this.index=new Reserva(this.service2.userLogged,new Vehiculo(null,null,null,null,null),null,null,null,null);
-    this.service.getVehiculo().subscribe(
-      result => {
-              this.vehiculoArray = JSON.parse(result.vehiculos);
-      },
-      error => {
-              alert("Error en la petición");
-      }
-  );
+//    console.log(this.storageservice.getUsuarioLogeado());
+    this.nuevo=new Reserva();
+    this.nuevo.usuario = this.storageservice.usuarioLogeado;
+    this.nuevo.vehiculo=this.storageservice.getVehiculoSeleccioado();
+    console.log(this.storageservice.usuarioLogeado);
+    console.log(this.storageservice.usuarioLogeado.perfil);
+    console.log(this.storageservice.usuarioLogeado.usuario);
+    //  console.log(this.authenticationService.userLogged);
+    this.index=new Reserva(this.storageservice.usuarioLogeado,new Vehiculo(null,null,null,null,null),null,null,null,null);
   }
   precio(){
     this.nuevo.costoRenta=this.nuevo.dias*150;
     this.index.costoRenta=this.index.dias*150;
   }
-  reservar(){
-    this.nuevo.usuario=JSON.parse(localStorage.getItem('currentUser'));
+  reservar(){ 
+    this.nuevo.usuario=this.storageservice.usuarioLogeado;
     this.nuevo.estado="pendiente";
     this.nuevo.fechaRenta= new Date("06-07-2018");
-    console.log(this.vehiculoArray);
     console.log(this.nuevo);
     this.service3.enviarReserva(this.nuevo).subscribe(
       data => {
@@ -54,26 +57,44 @@ export class ReservaComponent implements OnInit {
       }
       );
     
-      alert("Reserva Completada");
+      alert("Reserva Completada"); //ésto no se ejecuta
       
   }
+
+
+
   consultarReservas(){
-    this.service3.getReserva().subscribe(
-      result=>{
-        this.reservaArray=JSON.parse(result.reservas);
-  
-      },
-      error=>{
-        alert("Error en la peticion de usuarios");
-      }
-    )
-    console.log(this.reservaArray);
+    if(this.storageservice.usuarioLogeado.perfil == "Cliente")
+    {
+      this.service3.getPropio(this.storageservice.usuarioLogeado.usuario).subscribe(
+        result=>{
+          this.reservaArray=JSON.parse(result.reservas);
+    
+        },
+        error=>{
+          alert("Error en la peticion de usuarios");
+        }
+      );
+    }
+    else
+    {
+      this.service3.getReserva().subscribe(
+        result=>{
+          this.reservaArray=JSON.parse(result.reservas);
+    
+        },
+        error=>{
+          alert("Error en la peticion de usuarios");
+        }
+      );  
+    }
   }
 
   detalles(item){
     console.log(item);
     this.index=item;
   }
+
 
   update(){
     this.service3.modificarReserva(this.index).subscribe(

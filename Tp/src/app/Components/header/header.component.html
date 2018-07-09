@@ -26,7 +26,7 @@
             <li class="nav-item">
                 <a class="nav-link" *ngIf="!authenticationService.userLoggedIn" [routerLink]="['login']">Login</a>
                 <a class="nav-link" *ngIf="authenticationService.userLoggedIn" [routerLink]="['login']" (click)="logout()">
-                  {{authenticationService.userLogged.username}} Logout
+                  {{authenticationService.userLogged.usuario}} (Logout)
                 </a>
             </li>
         </div>      

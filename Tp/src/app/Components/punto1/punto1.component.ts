@@ -59,6 +59,7 @@ export class Punto1Component implements OnInit {
 
 
   public borrarUsuario(user: Usuario){
+    console.log(user);
     this.servicio.borrarUsuario(user).subscribe(
       data => {
         console.log("borrado correctamente.")
@@ -67,12 +68,14 @@ export class Punto1Component implements OnInit {
       error => {
         console.error("Error borrando!");
         console.log(error);
+        alert("El usuario posee reservas pendientes, eliminelas primero");
         return false;
       }      
     )
     alert("Usuario Eliminado");
     this.cargarUsuarios();
   }
+
   ind(item){
     this.index=item;
     console.log(this.usuarios);

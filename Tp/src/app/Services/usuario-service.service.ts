@@ -33,7 +33,7 @@ export class UsuarioServiceService {
     return this._http.delete(('http://localhost/tpfinal/web/app_dev.php/usuario/' + usuario.id))
       .map((res: Response) => res.json());
   }
-
+  
   modificarUsuario(usuario) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
