@@ -27,6 +27,16 @@ export class NovedadesComponent implements OnInit {
     console.log(this.authenticationService.userLogged.usuario);
     console.log(this.authenticationService.userLogged.perfil);
   }
+  mod(z:Novedad){
+    if(this.authenticationService.userLogged.perfil=='Cliente' && z.estado!="pendiente"){
+      return false;
+
+    }
+    else{
+      return true;
+    }
+
+  }
 
   consultar(){
     if(this.authenticationService.userLogged.perfil != 'Cliente')

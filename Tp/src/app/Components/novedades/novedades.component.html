@@ -42,7 +42,7 @@
         <td>{{item.texto}}</td>
         <td>{{item.estado}}</td>
         <td>
-          <button class="btn btn-info" (click)="detalles(item)" data-toggle="modal" data-target="#modificar">
+          <button class="btn btn-info" (click)="detalles(item)" [disabled]="!mod(item)" data-toggle="modal" data-target="#modificar">
             <i fa class="fa fa-cog"></i> Modificar</button>
         </td>
         <td>

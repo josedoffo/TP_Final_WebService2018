@@ -59,16 +59,18 @@ export class Punto2Component implements OnInit {
     this.servicio.enviarVehiculo(this.nuevo).subscribe(
             data => {
               console.log("envio ok");
-              console.log("agregado correctamente.")
+              console.log("agregado correctamente.");
+              alert("Vehiculo agregado exitosamante");
               return true;
             },
             error => {
               console.error("Error saving!");
+              alert("Este Vehiculo posee reservas activas, eliminelas primero");
               return false;
             }
       );
       this.mostrarHistorico();
-      alert("Vehiculo agregado exitosamante");
+   
   }
 
   public eliminar(auto: Vehiculo){

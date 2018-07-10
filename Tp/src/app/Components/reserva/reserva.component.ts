@@ -25,6 +25,24 @@ export class ReservaComponent implements OnInit {
   constructor(public authenticationService : AuthenticationService, private service3:ReservaServiceService , public storageservice:StorageService) {
     console.log(authenticationService.userLogged);
   }
+  valid(){
+    if(this.nuevo.vehiculo.marca==null || this.nuevo.dias==null || this.nuevo.vehiculo.modelo==null){
+      return false;
+    }else{
+      return true;
+    }
+
+  }
+  mod(z:Reserva){
+    if(this.storageservice.usuarioLogeado.perfil=='Cliente' && z.estado!="pendiente"){
+      return true;
+    
+      ;
+    }else
+    {
+      return false;
+    }
+  }
   ngOnInit() {
 //    console.log(this.storageservice.getUsuarioLogeado());
     this.nuevo=new Reserva();
@@ -43,7 +61,7 @@ export class ReservaComponent implements OnInit {
   reservar(){ 
     this.nuevo.usuario=this.storageservice.usuarioLogeado;
     this.nuevo.estado="pendiente";
-    this.nuevo.fechaRenta= new Date("06-07-2018");
+    this.nuevo.fechaRenta= new Date("10-07-2018");
     console.log(this.nuevo);
     this.service3.enviarReserva(this.nuevo).subscribe(
       data => {

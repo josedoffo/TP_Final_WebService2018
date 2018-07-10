@@ -64,6 +64,7 @@ export class Punto1Component implements OnInit {
       data => {
         console.log("borrado correctamente.")
         return true;
+        alert("Usuario Eliminado");
       },
       error => {
         console.error("Error borrando!");
@@ -72,7 +73,7 @@ export class Punto1Component implements OnInit {
         return false;
       }      
     )
-    alert("Usuario Eliminado");
+   
     this.cargarUsuarios();
   }
 

@@ -1,13 +1,14 @@
 <div id="z">
+  <form>
   <div *ngIf="storageservice.usuarioLogeado.perfil!='Administrador'">
   <h4 class="card-header">Reserva de Vehiculos</h4>
-  <form class="form-group">
+ 
     <div class="form-group row">
       <div class="col">
-        <input class="form-control" [readonly]="true" placeholder="Marca del vehiculo" required name="marca" id="marca" #marca="ngModel" [(ngModel)]="nuevo.vehiculo.marca">
+        <input class="form-control" [readonly]="true" required placeholder="Marca del vehiculo"  name="marca" id="marca" #marca="ngModel" [(ngModel)]="nuevo.vehiculo.marca">
       </div>
       <div class="col">
-        <input class="form-control" [readonly]="true" placeholder="Modelo del vehiculo" required name="modelo" [(ngModel)]="nuevo.vehiculo.modelo" #modelo="ngModel">
+        <input class="form-control" [readonly]="true" required placeholder="Modelo del vehiculo"  name="modelo" [(ngModel)]="nuevo.vehiculo.modelo" #modelo="ngModel">
       </div>
     </div>
     <div class="form-group row">
@@ -18,17 +19,19 @@
         <input class="form-control" placeholder="Precio de alquiler" name="costo" #costo="ngModel" [(ngModel)]="nuevo.costoRenta" [readonly]="true" required>
       </div>
     </div>
-  </form>
 </div>
 
   <div class="card-footer">
     <div class="row justify-content-end" id="buttons">
-      <button class="btn btn-info" (click)="consultarReservas()">
-        <i fa class="fa fa-list"></i> Reservas</button>
-      <button class="btn btn-success" *ngIf="storageservice.usuarioLogeado.perfil!='Administrador'" (click)="reservar()">
+      <button class="btn btn-info" (click)="consultarReservas()" *ngIf="storageservice.usuarioLogeado.perfil!='Administrador'" >
+        <i fa class="fa fa-list"></i> Mis Reservas</button>
+        <button class="btn btn-info" (click)="consultarReservas()" *ngIf="storageservice.usuarioLogeado.perfil=='Administrador'" >
+            <i fa class="fa fa-list"></i> Listar Reservas</button>
+      <button class="btn btn-success" [disabled]="!valid()" *ngIf="storageservice.usuarioLogeado.perfil!='Administrador'" (click)="reservar()">
         <i fa class="fa fa-check" ></i> Reservar</button>
     </div>
   </div>
+</form>
   </div>
 <div class="container">
   <table class="table table-striped" [mfData]="reservaArray" #mf="mfDataTable" [mfRowsOnPage]="5">
@@ -65,10 +68,10 @@
         <td>{{item.fechaRenta.timestamp * 1000 | date: 'dd/MM/yyyy'}}</td>
         <td>{{item.estado}}</td>
         <td>
-        <button class="btn btn-info" (click)="detalles(item)" data-toggle="modal" data-target="#modificar"><i fa class="fa fa-cog"></i> Modificar</button>  
+        <button class="btn btn-info" (click)="detalles(item)" data-toggle="modal" [disabled]="mod(item)" data-target="#modificar"><i fa class="fa fa-cog"></i> Modificar</button>  
         </td>
         <td>
-          <button class="btn btn-danger" (click)="borrarUsuario(item)">
+          <button class="btn btn-danger" (click)="borrarUsuario(item) " [disabled]="mod(item)">
             <i fa class="fa fa-trash"></i> Borrar</button>
         </td>
       </tr>
