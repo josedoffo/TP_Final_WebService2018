@@ -54,6 +54,14 @@ export class Punto2Component implements OnInit {
   }
 
   add(){
+    var z : boolean;
+    this.vehiculos.forEach(e => {
+      if(e.patente==this.nuevo.patente)
+      {
+        z=true;
+      }
+    });
+    if(!z){
     this.nuevo.pathimagen = this.imgUrl;
     console.log(this.nuevo);
     this.servicio.enviarVehiculo(this.nuevo).subscribe(
@@ -70,7 +78,11 @@ export class Punto2Component implements OnInit {
             }
       );
       this.mostrarHistorico();
-   
+    }
+    else{
+      alert("La patente ingresada esta en uso");
+
+    }   
   }
 
   public eliminar(auto: Vehiculo){

@@ -84,7 +84,7 @@
             <i fa class="fa fa-cog"></i> Modificar</button>
         </td>
         <td>
-          <button class="btn btn-danger" (click)="borrarUsuario(item)">
+          <button class="btn btn-danger" (click)="borrarUsuario(item)" [disabled]="bor(item)">
             <i fa class="fa fa-trash"></i> Borrar</button>
         </td>
 

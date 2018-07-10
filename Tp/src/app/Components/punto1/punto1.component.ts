@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {Usuario} from '../../Models/Usuario';
 import {UsuarioServiceService} from '../../Services/usuario-service.service';
 import { Jsonp } from '@angular/http';
-
+import {AuthenticationService} from '../../Services/authentication.service';
+import {StorageService} from '../../Services/storage.service';
+import { pureFunctionV } from '@angular/core/src/render3/pure_function';
+import { Alert } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-punto1',
@@ -14,13 +17,12 @@ export class Punto1Component implements OnInit {
   usuarios:Array<Usuario>
   nuevo:Usuario;
   index:Usuario;
-  constructor( private servicio:UsuarioServiceService, ) { 
+  constructor( private servicio:UsuarioServiceService, public authenticationService:AuthenticationService,public storageservice:StorageService) { 
     
   this.nuevo=new Usuario();
   this.index=new Usuario();
   this.usuarios=new Array<Usuario>();
   this.cargarUsuarios();
-
   }
 
   cargarUsuarios(){
@@ -37,8 +39,26 @@ export class Punto1Component implements OnInit {
   ngOnInit() {
 
   }
+  bor(i:Usuario){
+    if(i.usuario==this.storageservice.usuarioLogeado.usuario){
+      return true;
+
+    }else{
+      return false;
+    }
+  }
 
   registrar(){
+    var z : boolean;
+    this.usuarios.forEach(e => {
+      
+      if(e.usuario==this.nuevo.usuario){
+        z=true;
+      }
+      
+    });
+
+    if(!z){
     console.log(this.nuevo);
     this.servicio.enviarUsuario(this.nuevo).subscribe(
       data => {
@@ -54,7 +74,10 @@ export class Punto1Component implements OnInit {
       
       this.cargarUsuarios();
       alert("Usuario Agregado Correctamente");
-      
+    }else
+    {
+      alert("El nombre de usuario esta en uso");
+    }
   }
 
 
@@ -63,8 +86,9 @@ export class Punto1Component implements OnInit {
     this.servicio.borrarUsuario(user).subscribe(
       data => {
         console.log("borrado correctamente.")
-        return true;
         alert("Usuario Eliminado");
+        return true;
+       
       },
       error => {
         console.error("Error borrando!");
